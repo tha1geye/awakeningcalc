@@ -1,0 +1,42 @@
+{
+  "ItemCategories": {
+    "Garment": {
+      "Heavy Armor" : {
+        "Acheronian Boots" : {
+          "tier" : 5,
+          "volume" : 1,
+          "isUnique" : true,
+          "armorValue" : 213,
+          "dashStaminaCost" : 3.8,
+          "lightDartMitigation" : 3.0,
+          "bladeMitigation" : -4.5,
+          "concussiveMitigation" : 6.0,
+          "heavyDartMitigation" : 3.0,
+          "createdAt" : "Garment Fabricator"
+        }
+      },
+      "Light Armor" : {},
+      "Utility" : {},
+      "Exploration" : {},
+      "Social" : {},
+      "Stillsuits" : {},
+      "Water Discipline": {}
+    },
+    "Utility": {},
+    "Misc" : {
+      "Raw Resource" : {
+        "Ore" : {
+          "Aluminum Ore" : {
+            "tier" : 4,
+            "volume" : 0.6
+          }
+        }
+      }
+    },
+    "Weapons" : {},
+    "Vehicles" : {},
+    "Construction" : {},
+    "Customization" : {},
+    "Contract" : {}
+  }
+}
