@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../app_data/constants.dart';
 import 'appbars.dart';
 
 class Scaffolds {
@@ -6,7 +7,7 @@ class Scaffolds {
     return Scaffold(
       appBar: AppBars.normalAppBar(context),
       body: Container(
-        color: Colors.black54,
+        color: COLORS['windowBackground'],
         child: child,
       ),
     );

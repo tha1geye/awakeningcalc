@@ -3,14 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:awakening_calc/view/pages/map_page.dart';
 import 'package:awakening_calc/view/pages/home_page.dart';
 import 'package:awakening_calc/view/pages/item_page.dart';
+import 'package:provider/provider.dart';
 import 'app_data/constants.dart';
+import 'controller/simple_state_controller.dart';
 import 'util/debug_printer.dart';
 
 const DebugPrinter printer = DebugPrinter(moduleName: "Main");
 
+
 void main() {
   printer.debugPrint("App Execution beginning");
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ItemTracker(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,10 +35,7 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => const HomePage(),
         ItemPage.routeName: (context) => const ItemPage(),
         MapPage.routeName: (context) => const MapPage(),
-
       },
     );
   }
 }
-
-

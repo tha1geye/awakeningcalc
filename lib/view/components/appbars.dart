@@ -1,3 +1,4 @@
+import 'package:awakening_calc/app_data/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:awakening_calc/view/components/texts.dart';
@@ -8,7 +9,8 @@ class AppBars {
 
   static AppBar normalAppBar(BuildContext context){
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      // backgroundColor: COLORS['titleBackground'],
+      backgroundColor: Colors.black26,
       title: Texts.appSloganText(),
       actions: [
         Buttons.itemNavButton(context),
