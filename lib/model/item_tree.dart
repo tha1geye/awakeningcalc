@@ -21,13 +21,7 @@ class ItemTree {
   }
 
   // build tree
-  void build(){
-    for(Category category in categories){
-      if(!category.hasItemChildren){
-
-      }
-    }
-  }
+  void build(){}
   // ------- for each cat in list search subs for id
 
   // ---- join subs to their cat

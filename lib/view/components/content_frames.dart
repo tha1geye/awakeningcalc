@@ -1,15 +1,18 @@
 import 'package:awakening_calc/model/category.dart';
 import 'package:awakening_calc/view/components/panels.dart';
+import 'package:awakening_calc/view/components/rows.dart';
 import 'package:awakening_calc/view/components/spacers.dart';
+import 'package:awakening_calc/view/components/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_data/constants.dart';
+import '../../controller/item_tracker.dart';
 import '../../controller/simple_state_controller.dart';
 import '../../model/item_tree.dart';
 
 class ContentFrames {
-  static Column itemContentFrame(BuildContext context) {
+  static Widget itemContentFrame(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -26,42 +29,46 @@ class ContentFrames {
   static Widget categorySelectionContentFrame(BuildContext context) {
     var itemTracker = context.read<ItemTracker>();
 
-    Category? _selectedMainCategory = itemTracker.getSelectedCategory();
-    Category? _selectedSubCategory = itemTracker.getSelectedSubCategory();
+    String? _selectedCategoryId = itemTracker.getSelectedCategoryId();
+    String? _selectedSubcategoryId = itemTracker.getSelectedSubcategoryId();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Row(
-          children: [
-            const Text("Select a category"),
-            Spacers.innerFieldSpacer(),
-            DropdownMenu<Category>(
-              initialSelection: _selectedMainCategory,
-              onSelected: (Category? category) {
-                itemTracker.updateSelectedCategory(category);
+    return Consumer<ItemTracker>(builder: (context, tracker, child) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Rows.dropdownMenuRow(
+            title: "Select a category",
+            child: DropdownMenu<String>(
+              initialSelection: tracker.getSelectedCategoryId(),
+              onSelected: (String? categoryId) {
+                itemTracker.updateSelectedCategoryById(categoryId);
               },
               dropdownMenuEntries: itemTracker.getCategoryMenuEntries(),
             ),
-          ],
-        ),
-        Spacers.outerFieldSpacer(),
-        Row(
-          children: [
-            const Text("Select a Subcategory"),
-            Spacers.innerFieldSpacer(),
-            Consumer<ItemTracker>(
-              builder: (context, tracker, child) => DropdownMenu<String>(
-                initialSelection: _selectedSubCategory,
-                onSelected: (String? subcategory) {
-                  itemTracker.updateSelectedSubCategory(subcategory);
-                },
-                dropdownMenuEntries: itemTracker.getSubCategoryMenuEntries(),
-              ),
-            )
-          ],
-        ),
-      ],
+          ),
+          Spacers.outerFieldSpacer(),
+          Rows.dropdownMenuRow(
+            title: "Select a Subcategory",
+            child: DropdownMenu<String>(
+              initialSelection: itemTracker.getSelectedSubcategoryId(),
+              onSelected: (String? subcategory) {
+                itemTracker.updateSelectedSubcategoryById(subcategory);
+              },
+              dropdownMenuEntries: itemTracker.getSubcategoryMenuEntries(),
+              enabled: tracker.selectedCategory,
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
+  static Widget itemListContentFrame(BuildContext context) {
+    var itemTracker = context.read<ItemTracker>();
+
+    return Container(
+      color: COLORS["windowBackground"],
+      child: Center(child: Texts.emptyPageText("This here's the itemlist")),
     );
   }
 }

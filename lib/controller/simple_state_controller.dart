@@ -1,3 +1,4 @@
+
 import 'package:awakening_calc/app_data/dirty_json_faker.dart';
 import 'package:awakening_calc/model/category.dart';
 import 'package:awakening_calc/model/item_tree.dart';
@@ -6,8 +7,8 @@ import 'package:flutter/material.dart';
 
 class SimpleStateController {
   DebugPrinter printer = const DebugPrinter(moduleName: "SimpleStateController");
-  ItemTree itemTree = ItemTree();
   DirtyJSONFaker backEnd = DirtyJSONFaker();
+  ItemTree itemTree = ItemTree();
 
   SimpleStateController(){
     printer.debugPrint("Constructor--- Constructed...");
@@ -35,72 +36,29 @@ class SimpleStateController {
   }
 
   List<Category> getTopLevelCategories(){
+    printer.debugPrint("getTopLevelCategories--- started");
     return itemTree.getTopLevelCategories();
   }
 
   List<Category> getSubcategoriesOf(Category category){
+    printer.debugPrint("getSubcategoriesOf--- started");
     return itemTree.getChildCategoriesOf(category.id);
+  }
+
+  Category? getCategoryById(String id){
+    printer.debugPrint("getCategoryById--- started");
+    return itemTree.findCategoryByID(id);
   }
 }
 
-class ItemTracker with ChangeNotifier {
-  SimpleStateController stateController = SimpleStateController();
+class DropdownInfoPacket{
+  List<DropdownMenuEntry<String>> menuEntries;
+  String id;
+  String text;
+  DropdownInfoPacket({required this.menuEntries, required this.id, required this.text});
+}
 
-  DropdownMenuEntry<String> noCategory =
-  const DropdownMenuEntry(value: 'none', label: "Select a category");
-  DropdownMenuEntry<String> errorEntry =
-  const DropdownMenuEntry(value: 'none', label: "There's been an error");
-
-  Category? selectedCategory;
-  Category? selectedSubCategory;
-  String? selectedItem;
-
-  Category? getSelectedCategory() {
-    return selectedCategory;
-  }
-
-  void updateSelectedCategory(Category? category) {
-    selectedCategory = category;
-    notifyListeners();
-  }
-
-  Category? getSelectedSubCategory() {
-    return selectedSubCategory!;
-  }
-
-  void updateSelectedSubCategory(Category? subCategory) {
-    selectedSubCategory = subCategory;
-    notifyListeners();
-  }
-
-  String getSelectedItem() {
-    if (selectedItem == null) {
-      return "No Item Selected";
-    } else {
-      return selectedItem!;
-    }
-  }
-
-  void updateSelectedItem(String? item) {
-    selectedItem = item;
-    notifyListeners();
-  }
-
-  List<DropdownMenuEntry<String>> getCategoryMenuEntries() {
-    // always returns the category list, since entries don't need to be dynamic
-    return stateController.getTopLevelCategories().map((Category category) {
-      return DropdownMenuEntry(value: category.title, label: category.title);
-    }).toList();
-  }
-
-  List<DropdownMenuEntry<String>> getSubCategoryMenuEntries() {
-    if(selectedCategory == null){
-      return [DropdownMenuEntry(value: 'none', label: "Select a category")];
-    }
-    else{
-      // returns the subcategories of the selected category
-      return stateController.getSubcategoriesOf(selectedCategory!).map((Category category) {
-        return DropdownMenuEntry(value: category.title, label: category.title);
-      }).toList();
-    }
+class DropdownUpdatePacket{
+  String id;
+  DropdownUpdatePacket({required this.id});
 }

@@ -5,7 +5,7 @@ import 'package:awakening_calc/view/pages/home_page.dart';
 import 'package:awakening_calc/view/pages/item_page.dart';
 import 'package:provider/provider.dart';
 import 'app_data/constants.dart';
-import 'controller/simple_state_controller.dart';
+import 'controller/item_tracker.dart';
 import 'util/debug_printer.dart';
 
 const DebugPrinter printer = DebugPrinter(moduleName: "Main");
