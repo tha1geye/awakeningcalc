@@ -1,5 +1,4 @@
 import 'package:awakening_calc/util/debug_printer.dart';
-import 'package:flutter/material.dart';
 
 import 'category.dart';
 
@@ -20,14 +19,7 @@ class ItemTree {
     printer.debugPrint("setCategories--- complete");
   }
 
-  // build tree
   void build(){}
-  // ------- for each cat in list search subs for id
-
-  // ---- join subs to their cat
-
-  // ---- join items to their subs
-
   List<Category> getTopLevelCategories(){
     List<Category> topLevelCategories = [];
 

@@ -17,8 +17,6 @@ class SimpleStateController {
 
   void load(){
     printer.debugPrint("load--- begin");
-    // ----- this should all eventually move to a BE controller -----
-    // open json file
     backEnd.load();
 
     // parse categories

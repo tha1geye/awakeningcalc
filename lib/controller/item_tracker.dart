@@ -23,12 +23,31 @@ class ItemTracker with ChangeNotifier {
   String? selectedSubcategoryString;
   String? selectedItem;
 
-  Category? getSelectedCategory() {
-    return selectedCategory;
+  ItemTracker(){
+    printer.debugPrint("Constructor--- starting");
+    selectedCategory = stateController.getTopLevelCategories()[0];
+
+  }
+
+
+  // Category? getSelectedCategory() {
+  //   return selectedCategory;
+  // }
+
+  String? getSelectedCategoryId() {
+    return selectedCategory?.id;
+  }
+
+  List<DropdownMenuEntry<String>> getCategoryMenuEntries() {
+    // always returns the category list, since entries don't need to be dynamic
+    return stateController.getTopLevelCategories().map((Category category) {
+      return DropdownMenuEntry(value: category.id, label: category.title);
+    }).toList();
   }
 
   void updateSelectedCategory(Category? category) {
     printer.debugPrint("updateSelectedCategory--- updating");
+
     if (category != null) {
       selectedCategory = category;
       selectedCategoryString = category.id;
@@ -65,39 +84,8 @@ class ItemTracker with ChangeNotifier {
     return selectedSubcategory!;
   }
 
-  void updateSelectedSubcategory(Category? subCategory) {
-    printer.debugPrint("updateSelectedSubcategory--- started");
-    selectedSubcategory = subCategory;
-    notifyListeners();
-  }
-
-  void updateSelectedSubcategoryById(String? subcategory) {
-    if (subcategory == null) {
-      return;
-    }
-    selectedSubcategory = stateController.getCategoryById(subcategory);
-
-    notifyListeners();
-  }
-
-  String getSelectedItem() {
-    if (selectedItem == null) {
-      return "No Item Selected";
-    } else {
-      return selectedItem!;
-    }
-  }
-
-  void updateSelectedItem(String? item) {
-    selectedItem = item;
-    notifyListeners();
-  }
-
-  List<DropdownMenuEntry<String>> getCategoryMenuEntries() {
-    // always returns the category list, since entries don't need to be dynamic
-    return stateController.getTopLevelCategories().map((Category category) {
-      return DropdownMenuEntry(value: category.id, label: category.title);
-    }).toList();
+  String? getSelectedSubcategoryId() {
+    return selectedSubcategory?.id;
   }
 
   List<DropdownMenuEntry<String>> getSubcategoryMenuEntries() {
@@ -134,11 +122,32 @@ class ItemTracker with ChangeNotifier {
     }
   }
 
-  String? getSelectedCategoryId() {
-    return selectedCategory?.id;
+  void updateSelectedSubcategory(Category? subCategory) {
+    printer.debugPrint("updateSelectedSubcategory--- started");
+    selectedSubcategory = subCategory;
+    notifyListeners();
   }
 
-  String? getSelectedSubcategoryId() {
-    return selectedSubcategory?.id;
+  void updateSelectedSubcategoryById(String? subcategory) {
+    if (subcategory == null) {
+      return;
+    }
+    selectedSubcategory = stateController.getCategoryById(subcategory);
+
+    notifyListeners();
   }
+
+  String getSelectedItem() {
+    if (selectedItem == null) {
+      return "No Item Selected";
+    } else {
+      return selectedItem!;
+    }
+  }
+
+  void updateSelectedItem(String? item) {
+    selectedItem = item;
+    notifyListeners();
+  }
+
 }
