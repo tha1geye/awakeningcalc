@@ -1,3 +1,4 @@
+import 'package:awakening_calc/model/category.dart';
 import 'package:awakening_calc/view/components/panels.dart';
 import 'package:awakening_calc/view/components/spacers.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,9 @@ class ContentFrames {
 
   static Widget categorySelectionContentFrame(BuildContext context) {
     var itemTracker = context.read<ItemTracker>();
-    String? _selectedMainCategory = itemTracker.getSelectedCategory();
-    String? _selectedSubCategory = itemTracker.getSelectedSubCategory();
+
+    Category? _selectedMainCategory = itemTracker.getSelectedCategory();
+    Category? _selectedSubCategory = itemTracker.getSelectedSubCategory();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,10 +36,10 @@ class ContentFrames {
           children: [
             const Text("Select a category"),
             Spacers.innerFieldSpacer(),
-            DropdownMenu<String>(
+            DropdownMenu<Category>(
               initialSelection: _selectedMainCategory,
-              onSelected: (String? value) {
-                itemTracker.updateSelectedCategory(value);
+              onSelected: (Category? category) {
+                itemTracker.updateSelectedCategory(category);
               },
               dropdownMenuEntries: itemTracker.getCategoryMenuEntries(),
             ),
@@ -51,8 +53,8 @@ class ContentFrames {
             Consumer<ItemTracker>(
               builder: (context, tracker, child) => DropdownMenu<String>(
                 initialSelection: _selectedSubCategory,
-                onSelected: (String? value) {
-                  itemTracker.updateSelectedSubCategory(value);
+                onSelected: (String? subcategory) {
+                  itemTracker.updateSelectedSubCategory(subcategory);
                 },
                 dropdownMenuEntries: itemTracker.getSubCategoryMenuEntries(),
               ),

@@ -1,37 +1,74 @@
+import 'package:awakening_calc/app_data/dirty_json_faker.dart';
+import 'package:awakening_calc/model/category.dart';
 import 'package:awakening_calc/model/item_tree.dart';
+import 'package:awakening_calc/util/debug_printer.dart';
 import 'package:flutter/material.dart';
 
 class SimpleStateController {
-  SimpleStateController();
+  DebugPrinter printer = const DebugPrinter(moduleName: "SimpleStateController");
+  ItemTree itemTree = ItemTree();
+  DirtyJSONFaker backEnd = DirtyJSONFaker();
+
+  SimpleStateController(){
+    printer.debugPrint("Constructor--- Constructed...");
+    load();
+  }
+
+  void load(){
+    printer.debugPrint("load--- begin");
+    // ----- this should all eventually move to a BE controller -----
+    // open json file
+    backEnd.load();
+
+    // parse categories
+    List<Category> categories = backEnd.getCategories();
+    printer.debugPrint("load--- categories set");
+    // parse items
+
+    // set item tree categories
+    printer.debugPrint("load--- passing categories to itemtree");
+    itemTree.setCategories(categories);
+    printer.debugPrint("load--- finished passing categories");
+
+
+    printer.debugPrint("load--- complete");
+  }
+
+  List<Category> getTopLevelCategories(){
+    return itemTree.getTopLevelCategories();
+  }
+
+  List<Category> getSubcategoriesOf(Category category){
+    return itemTree.getChildCategoriesOf(category.id);
+  }
 }
 
 class ItemTracker with ChangeNotifier {
-  String? selectedCategory;
-  String? selectedSubCategory;
+  SimpleStateController stateController = SimpleStateController();
+
+  DropdownMenuEntry<String> noCategory =
+  const DropdownMenuEntry(value: 'none', label: "Select a category");
+  DropdownMenuEntry<String> errorEntry =
+  const DropdownMenuEntry(value: 'none', label: "There's been an error");
+
+  Category? selectedCategory;
+  Category? selectedSubCategory;
   String? selectedItem;
 
-  String getSelectedCategory() {
-    if (selectedCategory == null) {
-      return "No Category Selected";
-    } else {
-      return selectedCategory!;
-    }
+  Category? getSelectedCategory() {
+    return selectedCategory;
   }
 
-  void updateSelectedCategory(String? category) {
+  void updateSelectedCategory(Category? category) {
     selectedCategory = category;
     notifyListeners();
   }
 
-  String getSelectedSubCategory() {
-    if (selectedSubCategory == null) {
-      return "No SubCategory Selected";
-    } else {
-      return selectedSubCategory!;
-    }
+  Category? getSelectedSubCategory() {
+    return selectedSubCategory!;
   }
 
-  void updateSelectedSubCategory(String? subCategory) {
+  void updateSelectedSubCategory(Category? subCategory) {
     selectedSubCategory = subCategory;
     notifyListeners();
   }
@@ -51,31 +88,19 @@ class ItemTracker with ChangeNotifier {
 
   List<DropdownMenuEntry<String>> getCategoryMenuEntries() {
     // always returns the category list, since entries don't need to be dynamic
-    return ItemTree.getCategoryMenuEntries();
+    return stateController.getTopLevelCategories().map((Category category) {
+      return DropdownMenuEntry(value: category.title, label: category.title);
+    }).toList();
   }
-
-  DropdownMenuEntry<String> noCategory =
-      const DropdownMenuEntry(value: 'none', label: "Select a category");
-  DropdownMenuEntry<String> errorEntry =
-      const DropdownMenuEntry(value: 'none', label: "There's been an error");
 
   List<DropdownMenuEntry<String>> getSubCategoryMenuEntries() {
-    // returns the subcategories of the selected category
-    List<DropdownMenuEntry<String>> list;
-
-    if (selectedCategory == null) {
-      list = [
-        noCategory,
-      ];
-    } else {
-      list = ItemTree.getSubCategoryMenuEntries(selectedCategory!);
+    if(selectedCategory == null){
+      return [DropdownMenuEntry(value: 'none', label: "Select a category")];
     }
-
-    if (list.isEmpty) {
-      list = [
-        errorEntry,
-      ];
+    else{
+      // returns the subcategories of the selected category
+      return stateController.getSubcategoriesOf(selectedCategory!).map((Category category) {
+        return DropdownMenuEntry(value: category.title, label: category.title);
+      }).toList();
     }
-    return list;
-  }
 }
