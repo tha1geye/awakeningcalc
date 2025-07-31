@@ -1,28 +1,28 @@
 import 'package:uuid/uuid.dart';
 
 class Category {
-  late String id;
+  late int id;
   String title;
-  late List<String> children;
+  late List<int> children;
   bool hasItemChildren;
   bool isTopLevel;
 
-  Category({String? id, List<String>? children, required this.title, required this.hasItemChildren, this.isTopLevel = false}){
-    this.id = id ?? const Uuid().v4();
+  Category({int? id, List<int>? children, required this.title, required this.hasItemChildren, this.isTopLevel = false}){
+    this.id = id ?? -1;
     this.children = children ?? [];
   }
 
-  void addChildren(List<String> children){
-    for(String child in children){
+  void addChildren(List<int> children){
+    for(int child in children){
       this.children.add(child);
     }
   }
 
-  void addChild(String child){
+  void addChild(int child){
     children.add(child);
   }
 
-  List<String> getChildren(){
+  List<int> getChildren(){
     return children;
   }
 }

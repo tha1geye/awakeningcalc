@@ -19,9 +19,7 @@ class ItemTracker with ChangeNotifier {
 
   Category? selectedCategory;
   Category? selectedSubcategory;
-  String? selectedCategoryString;
-  String? selectedSubcategoryString;
-  String? selectedItem;
+  int? selectedItemId;
 
   ItemTracker(){
     printer.debugPrint("Constructor--- starting");
@@ -29,12 +27,7 @@ class ItemTracker with ChangeNotifier {
 
   }
 
-
-  // Category? getSelectedCategory() {
-  //   return selectedCategory;
-  // }
-
-  String? getSelectedCategoryId() {
+  int? getSelectedCategoryId() {
     return selectedCategory?.id;
   }
 
@@ -50,7 +43,6 @@ class ItemTracker with ChangeNotifier {
 
     if (category != null) {
       selectedCategory = category;
-      selectedCategoryString = category.id;
       notifyListeners();
       printer.debugPrint("--- successful");
     } else {
@@ -58,7 +50,7 @@ class ItemTracker with ChangeNotifier {
     }
   }
 
-  void updateSelectedCategoryById(String? id) {
+  void updateSelectedCategoryById(int? id) {
     printer.debugPrint("updateSelectedCategoryById--- updating category");
 
     if (id == null) {
@@ -84,18 +76,18 @@ class ItemTracker with ChangeNotifier {
     return selectedSubcategory!;
   }
 
-  String? getSelectedSubcategoryId() {
+  int? getSelectedSubcategoryId() {
     return selectedSubcategory?.id;
   }
 
-  List<DropdownMenuEntry<String>> getSubcategoryMenuEntries() {
+  List<DropdownMenuEntry<int>> getSubcategoryMenuEntries() {
     printer.debugPrint("getSubcategoryMenuEntries--- started");
 
     if (selectedCategory == null) {
       printer.debugPrint("--- selectedCategory is null");
       return [
         const DropdownMenuEntry(
-          value: 'none',
+          value: 0,
           label: "Select a category",
         ),
       ];
@@ -108,7 +100,7 @@ class ItemTracker with ChangeNotifier {
       if(temp.isEmpty){
         return [
           const DropdownMenuEntry(
-            value: 'none',
+            value: 0,
             label: "No Subcategories",
           ),
         ];
@@ -128,26 +120,14 @@ class ItemTracker with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSelectedSubcategoryById(String? subcategory) {
-    if (subcategory == null) {
+  void updateSelectedSubcategoryById(int? subcategoryId) {
+    if (subcategoryId == null) {
       return;
     }
-    selectedSubcategory = stateController.getCategoryById(subcategory);
+    selectedSubcategory = stateController.getCategoryById(subcategoryId);
 
     notifyListeners();
   }
 
-  String getSelectedItem() {
-    if (selectedItem == null) {
-      return "No Item Selected";
-    } else {
-      return selectedItem!;
-    }
-  }
-
-  void updateSelectedItem(String? item) {
-    selectedItem = item;
-    notifyListeners();
-  }
 
 }

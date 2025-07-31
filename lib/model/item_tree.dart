@@ -31,7 +31,7 @@ class ItemTree {
     return topLevelCategories;
   }
 
-  List<Category> getChildCategoriesOf(String id){
+  List<Category> getChildCategoriesOf(int id){
     List<Category> children = [];
     Category? parent = findCategoryByID(id);
 
@@ -39,7 +39,7 @@ class ItemTree {
       return [];
     }
 
-    for(String childID in parent.children){
+    for(int childID in parent.children){
       Category? child = findCategoryByID(childID);
 
       if(child != null){
@@ -49,7 +49,7 @@ class ItemTree {
     return children;
   }
 
-  Category? findCategoryByID(String id){
+  Category? findCategoryByID(int id){
     for(Category category in categories){
       if(category.id == id){
         return category;

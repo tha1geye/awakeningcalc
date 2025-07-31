@@ -19,16 +19,6 @@ class DirtyJSONFaker {
     categories = [
       Category(
         title: "Garment",
-        id: 'garm',
-        children: [
-          'heavArm',
-          'ligArm',
-          'garmUtil',
-          'garmExpo',
-          'garmSoc',
-          'stillSt',
-          'wtrDscp',
-        ],
         hasItemChildren: false,
         isTopLevel: true,
       ),
@@ -45,37 +35,30 @@ class DirtyJSONFaker {
     var garmSubs = [
       Category(
         title: "Heavy Armor",
-        id: 'heavArm',
         hasItemChildren: true,
       ),
       Category(
         title: "Light Armor",
-        id: 'ligArm',
         hasItemChildren: true,
       ),
       Category(
         title: "Utility",
-        id: 'garmUtil',
         hasItemChildren: true,
       ),
       Category(
         title: "Exploration",
-        id: 'garmExpo',
         hasItemChildren: true,
       ),
       Category(
         title: "Social",
-        id: 'garmSoc',
         hasItemChildren: true,
       ),
       Category(
         title: "Stillsuits",
-        id: 'stillSt',
         hasItemChildren: true,
       ),
       Category(
         title: "Water Discipline",
-        id: 'wtrDscp',
         hasItemChildren: true,
       ),
     ];

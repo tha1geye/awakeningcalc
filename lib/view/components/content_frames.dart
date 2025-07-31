@@ -30,9 +30,9 @@ class ContentFrames {
         children: [
           Rows.dropdownMenuRow(
             title: "Select a category",
-            child: DropdownMenu<String>(
+            child: DropdownMenu<int>(
               initialSelection: tracker.getSelectedCategoryId(),
-              onSelected: (String? categoryId) {
+              onSelected: (int? categoryId) {
                 tracker.updateSelectedCategoryById(categoryId);
               },
               dropdownMenuEntries: tracker.getCategoryMenuEntries(),

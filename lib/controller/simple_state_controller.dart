@@ -43,7 +43,7 @@ class SimpleStateController {
     return itemTree.getChildCategoriesOf(category.id);
   }
 
-  Category? getCategoryById(String id){
+  Category? getCategoryById(int id){
     printer.debugPrint("getCategoryById--- started");
     return itemTree.findCategoryByID(id);
   }
